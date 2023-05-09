@@ -1,0 +1,70 @@
+@startuml
+
+enum VehicleFuel{
+GAS,
+HYBRID,
+ELECTRIC,
+}
+enum VehicleType{
+BUS,
+TRAM,
+TROLLEYBUS
+}
+
+enum VehicleStatus{
+NEED_REPAIR,
+IN_OPERATION,
+FOR_SCRAP
+}
+
+abstract class Vehicle{
+-VIN: UUID;
+-license_plate: String;
+-capacity: int;
+-type: VehicleType;
+-status: VehicleStatus;
+-fuel: VehicleFuel;
+-serviceDate: LocalDate;
+}
+
+class Bus extends Vehicle{
+-pollutionIndicator: int;
+}
+
+class Trolleybus extends Vehicle{}
+
+class Tram extends Vehicle{
+-yearsInService: int;
+}
+
+class Station{
+- name: String;
+}
+
+class Route{
+- stations: List<Station>;
+- vehicles: List<Vehicle>;
++ addStation(Station): void;
++ addVehicle(Vehicle): void;
++ displayVehicles(): void;
++ displayStations(): void;
+}
+
+class TransportCompany{
+- vehicles: List<Vehicle>;
+- routes: List<Route>;
++ addVehicle(Vehicle): void;
++ addRoute(Route): void;
++ searchVehicleWithTypeAndStatus(): List<Vehicle>;
++ trackRoutes(): List<Route>;
+}
+
+Vehicle-->VehicleFuel
+Vehicle-->VehicleStatus
+Vehicle-->VehicleType
+TransportCompany-->Vehicle
+TransportCompany-->Route
+Route-->Vehicle
+Route-->Station
+
+@enduml
